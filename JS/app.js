@@ -3,79 +3,111 @@
 //all products stored from Constructor function
 
 Product.allProducts = [];
-Product.uniqueRandomNumber = [];
-Product.totalCount = 0;
+Product.lastDisplayedIndex = [];
+Product.totalClicks = 0;
+
+//a container to show the results
+Product.section = document.getElementById('three-photos');
+
+//a place to display results
+Product.clickResults = document.getElementById('click-results')
 
 //object Constructor function
-function Product(name, filepath) {
+function Product(name, filepath, altTag) {
   this.name = name;
   this.filepath = filepath;
+  this.altTag = altTag;
   this.clicks = 0;
   this.views = 0;
   Product.allProducts.push(this);
-}
+};
 
 //new Product instances
-new Product('Bag', 'img/bag.jpg');
-new Product('Banana', 'img/banana.jpg');
-new Product('Bathroom', 'img/bathroom.jpg');
-new Product('Boots', 'img/breakfast.jpg');
-new Product('Breakfast', 'img/breakfast.jpg');
-new Product('Bubblegum', 'img/bubblegum.jpg');
-new Product('Chair', 'img/chair.jpg');
-new Product('Cthulhu', 'img/cthulhu.jpg');
-new Product('Dog Duck', 'img/dog-duck.jpg');
-new Product('Dragon', 'img/dragon.jpg');
-new Product('Pen', 'img/pen.jpg');
-new Product('Pet Sweep', 'img/pet-sweep.jpg');
-new Product('Scissors', 'img/scissors.jpg');
-new Product('Shark', 'img/shark.jpg');
-new Product('Sweep', 'img/sweep.png');
-new Product('Taun Taun', 'img/tauntaun.jpg');
-new Product('Unicorn', 'img/unicorn.jpg');
-new Product('Tentacle USB', 'img/usb.gif');
-new Product('Self-Watering Can', 'img/water-can.jpg');
-new Product('Fail Wine Glass', 'img/wine-glass.jpg');
+new Product('Bag', 'img/bag.jpg', 'bag');
+new Product('Banana', 'img/banana.jpg', 'banana');
+new Product('Bathroom', 'img/bathroom.jpg', 'bathroom');
+new Product('Boots', 'img/breakfast.jpg', 'boots');
+new Product('Breakfast', 'img/breakfast.jpg', 'breakfast');
+new Product('Bubblegum', 'img/bubblegum.jpg', 'bubblegum');
+new Product('Chair', 'img/chair.jpg', 'chair');
+new Product('Cthulhu', 'img/cthulhu.jpg', 'cthulhu');
+new Product('Dog Duck', 'img/dog-duck.jpg', 'dogduck');
+new Product('Dragon', 'img/dragon.jpg', 'dragon');
+new Product('Pen', 'img/pen.jpg', 'pen');
+new Product('Pet Sweep', 'img/pet-sweep.jpg', 'petsweep');
+new Product('Scissors', 'img/scissors.jpg', 'scissors');
+new Product('Shark', 'img/shark.jpg', 'shark');
+new Product('Sweep', 'img/sweep.png', 'sweep');
+new Product('Taun Taun', 'img/tauntaun.jpg', 'tauntaun');
+new Product('Unicorn', 'img/unicorn.jpg', 'unicorn');
+new Product('Tentacle USB', 'img/usb.gif', 'tentacleusb');
+new Product('Self-Watering Can', 'img/water-can.jpg', 'wateringcan');
+new Product('Fail Wine Glass', 'img/wine-glass.jpg', 'wineglass');
 
+//refer to images from HTML
+  Product.ourImages = ['imgEl1', 'imgEl2', 'imgEl3'];
 
-
+  var imgEl1 = document.getElementById('product1');
+  var imgEl2 = document.getElementById('product2');
+  var imgEl3 = document.getElementById('product3');
 
 //Random # function
-
-function handleNewImage () {
-
-}
 
 function randomNumber() {
   var randomNumber = Math.floor(Math.random() * Product.allProducts.length);
   return randomNumber;
 };
 
-//Array of unique random #
-function uniqueImage() {
-  var threePhotos = document.getElementById('three-photos');
-  var imgEl1 = document.getElementById('photo1');
-  var imgEl2 = document.getElementById('photo2');
-  var imgEl3 = document.getElementById('photo3');
-  Product.uniqueRandomNumber = [];
+//Creates array of unique random #
+function createUniqueIndex() {
+
+  Product.lastDisplayedIndex = [];
+
   for (var i = 0; i < 3; i++) {
-    var monkey = randomNumber();
-    if (Product.uniqueRandomNumber.includes(monkey)) {
-      uniqueImage();
+    var randoMonkey = randomNumber();
+    if (Product.lastDisplayedIndex.includes(randoMonkey)) {
+      createUniqueIndex();
     } else {
-      Product.uniqueRandomNumber.push(monkey);
+      Product.lastDisplayedIndex.push(randoMonkey);
     }
+
   }
-  for (i in Product.uniqueRandomNumber) {
-  Product.allProducts[i].src = Product.allProducts[Product.uniqueRandomNumber[i]].filepath;
-  }
+  Product.allProducts[Product.lastDisplayedIndex[0]].views++
+  Product.allProducts[Product.lastDisplayedIndex[1]].views++
+  Product.allProducts[Product.lastDisplayedIndex[2]].views++
+
+};
+//Assigns new src tag based on unique RNG
+function assignUniqueIndexSrc() {
+console.log(Product.lastDisplayedIndex);
+imgEl1.src = Product.allProducts[Product.lastDisplayedIndex[0]].filepath
+imgEl2.src = Product.allProducts[Product.lastDisplayedIndex[1]].filepath
+imgEl3.src = Product.allProducts[Product.lastDisplayedIndex[2]].filepath
 };
 
-uniqueImage();
+//Assigns new alt tag based on unique RNG
+function assignUniqueIndexAlt() {
+imgEl1.alt = Product.allProducts[Product.lastDisplayedIndex[0]].altTag
+imgEl2.alt = Product.allProducts[Product.lastDisplayedIndex[1]].altTag
+imgEl3.alt = Product.allProducts[Product.lastDisplayedIndex[2]].altTag
+};
 
+function getViewTracker() {
 
+}
+
+//click event handler
+
+function handleNewImage () {
+
+}
+
+createUniqueIndex();
+assignUniqueIndexSrc();
+assignUniqueIndexAlt();
+getViewTracker();
 //event Listener for Click
 
 
 
-// threePhotos.addEventListener('click', uniqueImage);
+// threePhotos.addEventListener('click', handleNewImage);
