@@ -4,11 +4,14 @@
 
 Product.allProducts = [];
 Product.uniqueRandomNumber = [];
+Product.totalCount = 0;
 
 //object Constructor function
 function Product(name, filepath) {
   this.name = name;
   this.filepath = filepath;
+  this.clicks = 0;
+  this.views = 0;
   Product.allProducts.push(this);
 }
 
@@ -36,30 +39,43 @@ new Product('Fail Wine Glass', 'img/wine-glass.jpg');
 
 
 
-//event Listener for Click
-
-var imgEl1 = document.getElementById('product1');
-var imgEl2 = document.getElementById('product2');
-var imgEl3 = document.getElementById('product3');
-
-imgEl1.addEventListener('click', randomProduct);
-imgEl2.addEventListener('click', randomProduct);
-imgEl3.addEventListener('click', randomProduct);
 
 //Random # function
 
+function handleNewImage () {
+
+}
+
 function randomNumber() {
-  return Math.floor(Math.random() * Product.allProducts.length);
+  var randomNumber = Math.floor(Math.random() * Product.allProducts.length);
+  return randomNumber;
+};
 
-}
+//Array of unique random #
+function uniqueImage() {
+  var threePhotos = document.getElementById('three-photos');
+  var imgEl1 = document.getElementById('photo1');
+  var imgEl2 = document.getElementById('photo2');
+  var imgEl3 = document.getElementById('photo3');
+  Product.uniqueRandomNumber = [];
+  for (var i = 0; i < 3; i++) {
+    var monkey = randomNumber();
+    if (Product.uniqueRandomNumber.includes(monkey)) {
+      uniqueImage();
+    } else {
+      Product.uniqueRandomNumber.push(monkey);
+    }
+  }
+  for (i in Product.uniqueRandomNumber) {
+  Product.allProducts[i].src = Product.allProducts[Product.uniqueRandomNumber[i]].filepath;
+  }
+};
 
-//Unique random # array
+uniqueImage();
 
 
-function randomProduct() {
-imgEl1.src = Product.allProducts[randomNumber()].filepath;
-imgEl2.src = Product.allProducts[randomNumber()].filepath;
-imgEl3.src = Product.allProducts[randomNumber()].filepath;
-}
+//event Listener for Click
 
-randomProduct();
+
+
+// threePhotos.addEventListener('click', uniqueImage);
