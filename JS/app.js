@@ -10,7 +10,7 @@ Product.totalClicks = 0;
 Product.threePhotos = document.getElementById('three-photos');
 
 //a place to display results
-Product.clickResults = document.getElementById('click-results')
+Product.votingResults = document.getElementById('voting-results')
 
 //object Constructor function
 function Product(name, filepath, altTag) {
@@ -105,14 +105,14 @@ function handleClickNewImage (e) {
 Product.totalClicks++
 
 //increases vote total for the photo clicked
-for (var i in Product.allProducts) {
+for (var i = 0; i < Product.allProducts.length; i++) {
   if(e.target.alt === Product.allProducts[i].altTag) {
     Product.allProducts[i].clicks++;
   }
 }
 
 if (Product.totalClicks > 24) {
-  Product.removeEventListener('click', handleClickNewImage);
+  Product.threePhotos.removeEventListener('click', handleClickNewImage);
   showVotingResults();
 }
 
@@ -122,6 +122,14 @@ assignUniqueIndexSrc();
 assignUniqueIndexAlt();
 }
 
+//function to show results
+function showVotingResults() {
+  for (var i = 0; i < Product.allProducts.length; i++) {
+    var liEl = document.createElement('li');
+    liEl.textContent = 'You voted for ' + Product.allProducts[i].name + ' ' + Product.allProducts[i].clicks + ' times out of ' + Product.allProducts[i].views + ' views.';
+    Product.votingResults.appendChild(liEl);
+  }
+};
 
 //event Listener for Click
 
