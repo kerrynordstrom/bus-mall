@@ -7,7 +7,7 @@ Product.lastDisplayedIndex = [];
 Product.totalClicks = 0;
 
 //a container to show the results
-Product.section = document.getElementById('three-photos');
+Product.threePhotos = document.getElementById('three-photos');
 
 //a place to display results
 Product.clickResults = document.getElementById('click-results')
@@ -26,7 +26,7 @@ function Product(name, filepath, altTag) {
 new Product('Bag', 'img/bag.jpg', 'bag');
 new Product('Banana', 'img/banana.jpg', 'banana');
 new Product('Bathroom', 'img/bathroom.jpg', 'bathroom');
-new Product('Boots', 'img/breakfast.jpg', 'boots');
+new Product('Boots', 'img/boots.jpg', 'boots');
 new Product('Breakfast', 'img/breakfast.jpg', 'breakfast');
 new Product('Bubblegum', 'img/bubblegum.jpg', 'bubblegum');
 new Product('Chair', 'img/chair.jpg', 'chair');
@@ -92,22 +92,41 @@ imgEl2.alt = Product.allProducts[Product.lastDisplayedIndex[1]].altTag
 imgEl3.alt = Product.allProducts[Product.lastDisplayedIndex[2]].altTag
 };
 
-function getViewTracker() {
-
-}
 
 //click event handler
 
-function handleNewImage () {
+function handleClickNewImage (e) {
+//Prevent clicks outside of the image area
+ if (e.target.id === 'three-photos') {
+   alert('Please click a photo to vote!');
+ }
 
+//increase total clicks
+Product.totalClicks++
+
+//increases vote total for the photo clicked
+for (var i in Product.allProducts) {
+  if(e.target.alt === Product.allProducts[i].altTag) {
+    Product.allProducts[i].clicks++;
+  }
 }
+
+if (Product.totalClicks > 24) {
+  Product.removeEventListener('click', handleClickNewImage);
+  showVotingResults();
+}
+
+//call Image render functions
+createUniqueIndex();
+assignUniqueIndexSrc();
+assignUniqueIndexAlt();
+}
+
+
+//event Listener for Click
 
 createUniqueIndex();
 assignUniqueIndexSrc();
 assignUniqueIndexAlt();
-getViewTracker();
-//event Listener for Click
 
-
-
-// threePhotos.addEventListener('click', handleNewImage);
+Product.threePhotos.addEventListener('click', handleClickNewImage);
