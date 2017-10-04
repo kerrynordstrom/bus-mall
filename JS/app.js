@@ -4,7 +4,15 @@
 
 Product.allProducts = [];
 Product.lastDisplayedIndex = [];
+Product.votes = [];
+Product.productNames = [];
 Product.totalClicks = 0;
+Product.votingChart
+Product.votingChartDrawn = false;
+
+//chart data
+var productNames = [];
+var votes = [];
 
 //a container to show the results
 Product.threePhotos = document.getElementById('three-photos');
@@ -51,6 +59,7 @@ new Product('Fail Wine Glass', 'img/wine-glass.jpg', 'wineglass');
   var imgEl2 = document.getElementById('product2');
   var imgEl3 = document.getElementById('product3');
 
+
 //Random # function
 
 function randomNumber() {
@@ -79,7 +88,6 @@ function createUniqueIndex() {
 };
 //Assigns new src tag based on unique RNG
 function assignUniqueIndexSrc() {
-console.log(Product.lastDisplayedIndex);
 imgEl1.src = Product.allProducts[Product.lastDisplayedIndex[0]].filepath
 imgEl2.src = Product.allProducts[Product.lastDisplayedIndex[1]].filepath
 imgEl3.src = Product.allProducts[Product.lastDisplayedIndex[2]].filepath
@@ -91,7 +99,6 @@ imgEl1.alt = Product.allProducts[Product.lastDisplayedIndex[0]].altTag
 imgEl2.alt = Product.allProducts[Product.lastDisplayedIndex[1]].altTag
 imgEl3.alt = Product.allProducts[Product.lastDisplayedIndex[2]].altTag
 };
-
 
 //click event handler
 
@@ -107,34 +114,156 @@ Product.totalClicks++
 //increases vote total for the photo clicked
 for (var i = 0; i < Product.allProducts.length; i++) {
   if(e.target.alt === Product.allProducts[i].altTag) {
-    Product.allProducts[i].clicks++;
+  Product.allProducts[i].clicks++;
   }
 }
 
 if (Product.totalClicks > 24) {
   Product.threePhotos.removeEventListener('click', handleClickNewImage);
-  showVotingResults();
+  updateChartArrays()
+  console.log(votes);
+  console.log(productNames);
+  // drawVotesChart();
 }
 
 //call Image render functions
 createUniqueIndex();
 assignUniqueIndexSrc();
 assignUniqueIndexAlt();
+
 }
 
-//function to show results
-function showVotingResults() {
+
+//function to update chart arrays
+function updateChartArrays() {
   for (var i = 0; i < Product.allProducts.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = 'You voted for ' + Product.allProducts[i].name + ' ' + Product.allProducts[i].clicks + ' times out of ' + Product.allProducts[i].views + ' views.';
-    Product.votingResults.appendChild(liEl);
-  }
+  votes.push(Product.allProducts[i].clicks);
+  productNames.push(Product.allProducts[i].name);
+}
+}
+
+
+// ***
+// DATA SET FOR CHART
+// ***
+
+var data = {
+  labels: productNames,
+  datasets: [
+    {
+      data: votes,
+      backgroundColor: [
+        '#f46542',
+        '#f49841',
+        '#f4b541',
+        '#f4c741',
+        '#f4d341',
+        '#d9f441',
+        '#ebf441',
+        '#8ef441',
+        '#61f441',
+        '#41f467',
+        '#41f4ac',
+        '#41f4ee',
+        '#41d6f4',
+        '#41a0f4',
+        '#416af4',
+        '#4146f4',
+        '#7041f4',
+        '#9d41f4',
+        '#c141f4',
+        '#e841f4',
+        '#f441dc',
+        '#f441b8',
+        '#f4418b',
+        '#f44176',
+        '#f44161'
+
+      ],
+      hoverBackgroundColor: [
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4'
+      ]
+    }]
 };
 
+// *** Draw function for chart
+// Charts rendered using Chart JS v.2.7.0
+// http://www.chartjs.org/
+// ***
+
+function drawVotesChart() {
+  var ctx = document.getElementById('voting-chart').getContext('2d');
+  Product.votingChart = new Chart(ctx,{
+    type: 'bar',
+    data: data,
+    options: {
+      legend: {
+        labels: {
+          fontColor: '#4c41f4',
+          fontSize: 12
+        }
+      },
+      responsive: false,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutBounce'
+      }
+    },
+    scales: {
+      xAxes: [{
+        stacked: false,
+        beginAtZero: true,
+        scaleLabel: {
+        labelString: 'Products'
+        },
+        ticks: {
+          stepSize: 1,
+          min: 25,
+          autoSkip: false
+        }
+    }],
+      yAxes: [{
+        ticks: {
+          max: 8,
+          min: 0,
+          stepSize: 1
+        }
+      }]
+    }
+  });
+  Product.votingChartDrawn = true;
+}
 //event Listener for Click
 
 createUniqueIndex();
 assignUniqueIndexSrc();
 assignUniqueIndexAlt();
+
+document.getElementById('draw-chart').addEventListener('click', function(){
+  drawVotesChart(); });
 
 Product.threePhotos.addEventListener('click', handleClickNewImage);
