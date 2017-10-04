@@ -222,7 +222,9 @@ function drawVotesChart() {
     data: data,
     options: {
       legend: {
+        display: true,
         labels: {
+          text: 'Total votes (of 25)',
           fontColor: '#4c41f4',
           fontSize: 12
         }
@@ -263,7 +265,14 @@ createUniqueIndex();
 assignUniqueIndexSrc();
 assignUniqueIndexAlt();
 
-document.getElementById('draw-chart').addEventListener('click', function(){
-  drawVotesChart(); });
+document.getElementById('draw-chart').addEventListener('click', function() {
+  for (var i = 0; Product.totalClicks > 24; i++) {
+  Product.threePhotos.removeChild(imgEl1);
+  Product.threePhotos.removeChild(imgEl2);
+  Product.threePhotos.removeChild(imgEl3);
+  drawVotesChart();
+    }
+  }
+);
 
 Product.threePhotos.addEventListener('click', handleClickNewImage);
