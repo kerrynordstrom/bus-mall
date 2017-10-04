@@ -17,8 +17,6 @@ var votes = [];
 //a container to show the results
 Product.threePhotos = document.getElementById('three-photos');
 
-//a place to display results
-Product.votingResults = document.getElementById('voting-results')
 
 //object Constructor function
 function Product(name, filepath, altTag) {
@@ -139,6 +137,8 @@ function updateChartArrays() {
   for (var i = 0; i < Product.allProducts.length; i++) {
   votes.push(Product.allProducts[i].clicks);
   productNames.push(Product.allProducts[i].name);
+  // localStorage.votes.push(votes);
+  // localStorage.productNames.push(productNames);
 }
 }
 
