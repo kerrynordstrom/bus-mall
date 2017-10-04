@@ -3,79 +3,267 @@
 //all products stored from Constructor function
 
 Product.allProducts = [];
-Product.uniqueRandomNumber = [];
-Product.totalCount = 0;
+Product.lastDisplayedIndex = [];
+Product.votes = [];
+Product.productNames = [];
+Product.totalClicks = 0;
+Product.votingChart
+Product.votingChartDrawn = false;
+
+//chart data
+var productNames = [];
+var votes = [];
+
+//a container to show the results
+Product.threePhotos = document.getElementById('three-photos');
+
+//a place to display results
+Product.votingResults = document.getElementById('voting-results')
 
 //object Constructor function
-function Product(name, filepath) {
+function Product(name, filepath, altTag) {
   this.name = name;
   this.filepath = filepath;
+  this.altTag = altTag;
   this.clicks = 0;
   this.views = 0;
   Product.allProducts.push(this);
-}
+};
 
 //new Product instances
-new Product('Bag', 'img/bag.jpg');
-new Product('Banana', 'img/banana.jpg');
-new Product('Bathroom', 'img/bathroom.jpg');
-new Product('Boots', 'img/breakfast.jpg');
-new Product('Breakfast', 'img/breakfast.jpg');
-new Product('Bubblegum', 'img/bubblegum.jpg');
-new Product('Chair', 'img/chair.jpg');
-new Product('Cthulhu', 'img/cthulhu.jpg');
-new Product('Dog Duck', 'img/dog-duck.jpg');
-new Product('Dragon', 'img/dragon.jpg');
-new Product('Pen', 'img/pen.jpg');
-new Product('Pet Sweep', 'img/pet-sweep.jpg');
-new Product('Scissors', 'img/scissors.jpg');
-new Product('Shark', 'img/shark.jpg');
-new Product('Sweep', 'img/sweep.png');
-new Product('Taun Taun', 'img/tauntaun.jpg');
-new Product('Unicorn', 'img/unicorn.jpg');
-new Product('Tentacle USB', 'img/usb.gif');
-new Product('Self-Watering Can', 'img/water-can.jpg');
-new Product('Fail Wine Glass', 'img/wine-glass.jpg');
+new Product('Bag', 'img/bag.jpg', 'bag');
+new Product('Banana', 'img/banana.jpg', 'banana');
+new Product('Bathroom', 'img/bathroom.jpg', 'bathroom');
+new Product('Boots', 'img/boots.jpg', 'boots');
+new Product('Breakfast', 'img/breakfast.jpg', 'breakfast');
+new Product('Bubblegum', 'img/bubblegum.jpg', 'bubblegum');
+new Product('Chair', 'img/chair.jpg', 'chair');
+new Product('Cthulhu', 'img/cthulhu.jpg', 'cthulhu');
+new Product('Dog Duck', 'img/dog-duck.jpg', 'dogduck');
+new Product('Dragon', 'img/dragon.jpg', 'dragon');
+new Product('Pen', 'img/pen.jpg', 'pen');
+new Product('Pet Sweep', 'img/pet-sweep.jpg', 'petsweep');
+new Product('Scissors', 'img/scissors.jpg', 'scissors');
+new Product('Shark', 'img/shark.jpg', 'shark');
+new Product('Sweep', 'img/sweep.png', 'sweep');
+new Product('Taun Taun', 'img/tauntaun.jpg', 'tauntaun');
+new Product('Unicorn', 'img/unicorn.jpg', 'unicorn');
+new Product('Tentacle USB', 'img/usb.gif', 'tentacleusb');
+new Product('Self-Watering Can', 'img/water-can.jpg', 'wateringcan');
+new Product('Fail Wine Glass', 'img/wine-glass.jpg', 'wineglass');
 
+//refer to images from HTML
+  Product.ourImages = ['imgEl1', 'imgEl2', 'imgEl3'];
 
+  var imgEl1 = document.getElementById('product1');
+  var imgEl2 = document.getElementById('product2');
+  var imgEl3 = document.getElementById('product3');
 
 
 //Random # function
-
-function handleNewImage () {
-
-}
 
 function randomNumber() {
   var randomNumber = Math.floor(Math.random() * Product.allProducts.length);
   return randomNumber;
 };
 
-//Array of unique random #
-function uniqueImage() {
-  var threePhotos = document.getElementById('three-photos');
-  var imgEl1 = document.getElementById('photo1');
-  var imgEl2 = document.getElementById('photo2');
-  var imgEl3 = document.getElementById('photo3');
-  Product.uniqueRandomNumber = [];
+//Creates array of unique random #
+function createUniqueIndex() {
+
+  Product.lastDisplayedIndex = [];
+
   for (var i = 0; i < 3; i++) {
-    var monkey = randomNumber();
-    if (Product.uniqueRandomNumber.includes(monkey)) {
-      uniqueImage();
+    var randoMonkey = randomNumber();
+    if (Product.lastDisplayedIndex.includes(randoMonkey)) {
+      createUniqueIndex();
     } else {
-      Product.uniqueRandomNumber.push(monkey);
+      Product.lastDisplayedIndex.push(randoMonkey);
     }
+
   }
-  for (i in Product.uniqueRandomNumber) {
-  Product.allProducts[i].src = Product.allProducts[Product.uniqueRandomNumber[i]].filepath;
-  }
+  Product.allProducts[Product.lastDisplayedIndex[0]].views++
+  Product.allProducts[Product.lastDisplayedIndex[1]].views++
+  Product.allProducts[Product.lastDisplayedIndex[2]].views++
+
+};
+//Assigns new src tag based on unique RNG
+function assignUniqueIndexSrc() {
+imgEl1.src = Product.allProducts[Product.lastDisplayedIndex[0]].filepath
+imgEl2.src = Product.allProducts[Product.lastDisplayedIndex[1]].filepath
+imgEl3.src = Product.allProducts[Product.lastDisplayedIndex[2]].filepath
 };
 
-uniqueImage();
+//Assigns new alt tag based on unique RNG
+function assignUniqueIndexAlt() {
+imgEl1.alt = Product.allProducts[Product.lastDisplayedIndex[0]].altTag
+imgEl2.alt = Product.allProducts[Product.lastDisplayedIndex[1]].altTag
+imgEl3.alt = Product.allProducts[Product.lastDisplayedIndex[2]].altTag
+};
+
+//click event handler
+
+function handleClickNewImage (e) {
+//Prevent clicks outside of the image area
+ if (e.target.id === 'three-photos') {
+   alert('Please click a photo to vote!');
+ }
+
+//increase total clicks
+Product.totalClicks++
+
+//increases vote total for the photo clicked
+for (var i = 0; i < Product.allProducts.length; i++) {
+  if(e.target.alt === Product.allProducts[i].altTag) {
+  Product.allProducts[i].clicks++;
+  }
+}
+
+if (Product.totalClicks > 24) {
+  Product.threePhotos.removeEventListener('click', handleClickNewImage);
+  updateChartArrays()
+  console.log(votes);
+  console.log(productNames);
+  // drawVotesChart();
+}
+
+//call Image render functions
+createUniqueIndex();
+assignUniqueIndexSrc();
+assignUniqueIndexAlt();
+
+}
 
 
+//function to update chart arrays
+function updateChartArrays() {
+  for (var i = 0; i < Product.allProducts.length; i++) {
+  votes.push(Product.allProducts[i].clicks);
+  productNames.push(Product.allProducts[i].name);
+}
+}
+
+
+// ***
+// DATA SET FOR CHART
+// ***
+
+var data = {
+  labels: productNames,
+  datasets: [
+    {
+      data: votes,
+      backgroundColor: [
+        '#f46542',
+        '#f49841',
+        '#f4b541',
+        '#f4c741',
+        '#f4d341',
+        '#d9f441',
+        '#ebf441',
+        '#8ef441',
+        '#61f441',
+        '#41f467',
+        '#41f4ac',
+        '#41f4ee',
+        '#41d6f4',
+        '#41a0f4',
+        '#416af4',
+        '#4146f4',
+        '#7041f4',
+        '#9d41f4',
+        '#c141f4',
+        '#e841f4',
+        '#f441dc',
+        '#f441b8',
+        '#f4418b',
+        '#f44176',
+        '#f44161'
+
+      ],
+      hoverBackgroundColor: [
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4',
+        '#4c41f4'
+      ]
+    }]
+};
+
+// *** Draw function for chart
+// Charts rendered using Chart JS v.2.7.0
+// http://www.chartjs.org/
+// ***
+
+function drawVotesChart() {
+  var ctx = document.getElementById('voting-chart').getContext('2d');
+  Product.votingChart = new Chart(ctx,{
+    type: 'bar',
+    data: data,
+    options: {
+      legend: {
+        labels: {
+          fontColor: '#4c41f4',
+          fontSize: 12
+        }
+      },
+      responsive: false,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutBounce'
+      }
+    },
+    scales: {
+      xAxes: [{
+        stacked: false,
+        beginAtZero: true,
+        scaleLabel: {
+        labelString: 'Products'
+        },
+        ticks: {
+          stepSize: 1,
+          min: 25,
+          autoSkip: false
+        }
+    }],
+      yAxes: [{
+        ticks: {
+          max: 8,
+          min: 0,
+          stepSize: 1
+        }
+      }]
+    }
+  });
+  Product.votingChartDrawn = true;
+}
 //event Listener for Click
 
+createUniqueIndex();
+assignUniqueIndexSrc();
+assignUniqueIndexAlt();
 
+document.getElementById('draw-chart').addEventListener('click', function(){
+  drawVotesChart(); });
 
-// threePhotos.addEventListener('click', uniqueImage);
+Product.threePhotos.addEventListener('click', handleClickNewImage);
