@@ -218,7 +218,7 @@ var data = {
 function drawVotesChart() {
   var ctx = document.getElementById('voting-chart').getContext('2d');
   Product.votingChart = new Chart(ctx,{
-    type: 'bar',
+    type: 'horizontalBar',
     data: data,
     options: {
       legend: {
