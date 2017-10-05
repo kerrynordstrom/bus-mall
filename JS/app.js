@@ -29,7 +29,7 @@ function Product(name, filepath, altTag) {
   Product.allProducts.push(this);
 };
 
-if (Boolean(localStorage.test) === true) {
+if (Boolean(localStorage) {
   Product.allProducts = JSON.parse(localStorage.allProducts)
 
 } else {
@@ -129,7 +129,6 @@ if (Product.totalClicks > 24) {
   Product.threePhotos.removeEventListener('click', handleClickNewImage);
   updateChartArrays()
   localStorage.allProducts = JSON.stringify(Product.allProducts);
-  localStorage.test = true;
   console.log(localStorage.allProducts);
 }
 
@@ -200,11 +199,6 @@ var data = {
 // ***
 
 function drawVotesChart() {
-
-
-  localStorage.votes = JSON.stringify(votes);
-
-
 
   var ctx = document.getElementById('voting-chart').getContext('2d');
   Product.votingChart = new Chart(ctx,{
