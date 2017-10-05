@@ -158,6 +158,7 @@ var data = {
   labels: productNames,
   datasets: [
     {
+      label: 'Number of Votes',
       data: votes,
       backgroundColor: [
         '#f46542',
@@ -189,30 +190,6 @@ var data = {
       ],
       hoverBackgroundColor: [
         '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4',
-        '#4c41f4'
       ]
     }]
 };
