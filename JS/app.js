@@ -5,6 +5,7 @@
 Product.allProducts = [];
 Product.lastDisplayedIndex = [];
 Product.votes = [];
+Product.parsedVotes = [];
 Product.productNames = [];
 Product.totalClicks = 0;
 Product.votingChart
@@ -28,6 +29,10 @@ function Product(name, filepath, altTag) {
   Product.allProducts.push(this);
 };
 
+if (Boolean(localStorage.test) === true) {
+  Product.allProducts = JSON.parse(localStorage.allProducts)
+
+} else {
 //new Product instances
 new Product('Bag', 'img/bag.jpg', 'bag');
 new Product('Banana', 'img/banana.jpg', 'banana');
@@ -49,6 +54,7 @@ new Product('Unicorn', 'img/unicorn.jpg', 'unicorn');
 new Product('Tentacle USB', 'img/usb.gif', 'tentacleusb');
 new Product('Self-Watering Can', 'img/water-can.jpg', 'wateringcan');
 new Product('Fail Wine Glass', 'img/wine-glass.jpg', 'wineglass');
+}
 
 //refer to images from HTML
   Product.ourImages = ['imgEl1', 'imgEl2', 'imgEl3'];
@@ -116,12 +122,15 @@ for (var i = 0; i < Product.allProducts.length; i++) {
   }
 }
 
+
+
 if (Product.totalClicks > 24) {
+
   Product.threePhotos.removeEventListener('click', handleClickNewImage);
   updateChartArrays()
-  console.log(votes);
-  console.log(productNames);
-  // drawVotesChart();
+  localStorage.allProducts = JSON.stringify(Product.allProducts);
+  localStorage.test = true;
+  console.log(localStorage.allProducts);
 }
 
 //call Image render functions
@@ -137,8 +146,6 @@ function updateChartArrays() {
   for (var i = 0; i < Product.allProducts.length; i++) {
   votes.push(Product.allProducts[i].clicks);
   productNames.push(Product.allProducts[i].name);
-  // localStorage.votes.push(votes);
-  // localStorage.productNames.push(productNames);
 }
 }
 
@@ -216,6 +223,12 @@ var data = {
 // ***
 
 function drawVotesChart() {
+
+
+  localStorage.votes = JSON.stringify(votes);
+
+
+
   var ctx = document.getElementById('voting-chart').getContext('2d');
   Product.votingChart = new Chart(ctx,{
     type: 'horizontalBar',
@@ -259,20 +272,21 @@ function drawVotesChart() {
   });
   Product.votingChartDrawn = true;
 }
-//event Listener for Click
 
 createUniqueIndex();
 assignUniqueIndexSrc();
 assignUniqueIndexAlt();
 
+//event listener for button push
 document.getElementById('draw-chart').addEventListener('click', function() {
   for (var i = 0; Product.totalClicks > 24; i++) {
+  drawVotesChart();
   Product.threePhotos.removeChild(imgEl1);
   Product.threePhotos.removeChild(imgEl2);
   Product.threePhotos.removeChild(imgEl3);
-  drawVotesChart();
+  break;
     }
   }
 );
-
+//event Listener for Click
 Product.threePhotos.addEventListener('click', handleClickNewImage);
