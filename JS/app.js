@@ -29,7 +29,8 @@ function Product(name, filepath, altTag) {
   Product.allProducts.push(this);
 };
 
-if (Boolean(localStorage.test === true)) {
+
+if (Boolean(localStorage)) {
   Product.allProducts = JSON.parse(localStorage.allProducts)
 
 } else {
