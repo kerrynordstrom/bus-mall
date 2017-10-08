@@ -28,31 +28,31 @@ function Product(name, filepath, altTag) {
 };
 
 
-if (localStorage) {
+if (Boolean(localStorage)) {
   Product.allProducts = JSON.parse(localStorage.allProducts)
 
 } else {
 //new Product instances
-new Product('Bag', 'bag.jpg', 'bag');
-new Product('Banana', 'banana.jpg', 'banana');
-new Product('Bathroom', 'bathroom.jpg', 'bathroom');
-new Product('Boots', 'boots.jpg', 'boots');
-new Product('Breakfast', 'breakfast.jpg', 'breakfast');
-new Product('Bubblegum', 'bubblegum.jpg', 'bubblegum');
-new Product('Chair', 'chair.jpg', 'chair');
-new Product('Cthulhu', 'cthulhu.jpg', 'cthulhu');
-new Product('Dog Duck', 'dog-duck.jpg', 'dogduck');
-new Product('Dragon', 'dragon.jpg', 'dragon');
-new Product('Pen', 'pen.jpg', 'pen');
-new Product('Pet Sweep', 'pet-sweep.jpg', 'petsweep');
-new Product('Scissors', 'scissors.jpg', 'scissors');
-new Product('Shark', 'shark.jpg', 'shark');
-new Product('Sweep', 'sweep.png', 'sweep');
-new Product('Taun Taun', 'tauntaun.jpg', 'tauntaun');
-new Product('Unicorn', 'unicorn.jpg', 'unicorn');
-new Product('Tentacle USB', 'usb.gif', 'tentacleusb');
-new Product('Self-Watering Can', 'water-can.jpg', 'wateringcan');
-new Product('Fail Wine Glass', 'wine-glass.jpg', 'wineglass');
+new Product('Bag', 'img/bag.jpg', 'bag');
+new Product('Banana', 'img/banana.jpg', 'banana');
+new Product('Bathroom', 'img/bathroom.jpg', 'bathroom');
+new Product('Boots', 'img/boots.jpg', 'boots');
+new Product('Breakfast', 'img/breakfast.jpg', 'breakfast');
+new Product('Bubblegum', 'img/bubblegum.jpg', 'bubblegum');
+new Product('Chair', 'img/chair.jpg', 'chair');
+new Product('Cthulhu', 'img/cthulhu.jpg', 'cthulhu');
+new Product('Dog Duck', 'img/dog-duck.jpg', 'dogduck');
+new Product('Dragon', 'img/dragon.jpg', 'dragon');
+new Product('Pen', 'img/pen.jpg', 'pen');
+new Product('Pet Sweep', 'img/pet-sweep.jpg', 'petsweep');
+new Product('Scissors', 'img/scissors.jpg', 'scissors');
+new Product('Shark', 'img/shark.jpg', 'shark');
+new Product('Sweep', 'img/sweep.png', 'sweep');
+new Product('Taun Taun', 'img/tauntaun.jpg', 'tauntaun');
+new Product('Unicorn', 'img/unicorn.jpg', 'unicorn');
+new Product('Tentacle USB', 'img/usb.gif', 'tentacleusb');
+new Product('Self-Watering Can', 'img/water-can.jpg', 'wateringcan');
+new Product('Fail Wine Glass', 'img/wine-glass.jpg', 'wineglass');
 }
 
 //refer to images from HTML
