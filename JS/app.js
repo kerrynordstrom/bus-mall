@@ -29,6 +29,7 @@ function Product(name, filepath, altTag) {
   Product.allProducts.push(this);
 };
 
+
 if (Boolean(localStorage)) {
   Product.allProducts = JSON.parse(localStorage.allProducts)
 
@@ -125,7 +126,7 @@ for (var i = 0; i < Product.allProducts.length; i++) {
 
 
 if (Product.totalClicks > 24) {
-
+  localStorage.test = true;
   Product.threePhotos.removeEventListener('click', handleClickNewImage);
   updateChartArrays()
   localStorage.allProducts = JSON.stringify(Product.allProducts);
