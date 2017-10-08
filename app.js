@@ -28,7 +28,7 @@ function Product(name, filepath, altTag) {
 };
 
 
-if (Boolean(localStorage)) {
+if (localStorage) {
   Product.allProducts = JSON.parse(localStorage.allProducts)
 
 } else {
@@ -255,7 +255,6 @@ document.getElementById('draw-chart').addEventListener('click', function() {
   Product.threePhotos.removeChild(imgEl2);
   Product.threePhotos.removeChild(imgEl3);
   Product.threePhotos.removeChild(button1);
-
   break;
     }
   }
