@@ -71,7 +71,6 @@ button:hover {
 }
 
 button:before {
-	/*position: absolute;*/
 	height: 100%;
 	font-size: 125%;
 	line-height: 3.5;
@@ -93,7 +92,6 @@ button:before {
 button:hover:before {
 	left: 80%;
 }
-
 
 canvas {
   border: none !important;
