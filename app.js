@@ -5,7 +5,6 @@
 Product.allProducts = [];
 Product.lastDisplayedIndex = [];
 Product.votes = [];
-Product.parsedVotes = [];
 Product.productNames = [];
 Product.totalClicks = 0;
 Product.votingChart
@@ -17,7 +16,6 @@ var votes = [];
 
 //a container to show the results
 Product.threePhotos = document.getElementById('three-photos');
-
 
 //object Constructor function
 function Product(name, filepath, altTag) {
@@ -63,7 +61,7 @@ new Product('Fail Wine Glass', 'wine-glass.jpg', 'wineglass');
   var imgEl1 = document.getElementById('product1');
   var imgEl2 = document.getElementById('product2');
   var imgEl3 = document.getElementById('product3');
-
+  var button1 = document.getElementById('draw-chart');
 
 //Random # function
 
@@ -256,6 +254,7 @@ document.getElementById('draw-chart').addEventListener('click', function() {
   Product.threePhotos.removeChild(imgEl1);
   Product.threePhotos.removeChild(imgEl2);
   Product.threePhotos.removeChild(imgEl3);
+  Product.threePhotos.removeChild(button1);
   break;
     }
   }
